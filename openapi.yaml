@@ -34,12 +34,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/Book'
               example:
-                - id: 1
+                - id: "550e8400-e29b-41d4-a716-446655440001"
                   title: "To Kill a Mockingbird"
                   author: "Harper Lee"
                   year: 1960
                   isbn: "978-0061120084"
-                - id: 2
+                - id: "550e8400-e29b-41d4-a716-446655440002"
                   title: "1984"
                   author: "George Orwell"
                   year: 1949
@@ -70,7 +70,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Book'
               example:
-                id: 4
+                id: "550e8400-e29b-41d4-a716-446655440004"
                 title: "The Great Gatsby"
                 author: "F. Scott Fitzgerald"
                 year: 1925
@@ -95,10 +95,11 @@ paths:
         - name: id
           in: path
           required: true
-          description: The ID of the book to retrieve
+          description: The UUID of the book to retrieve
           schema:
-            type: integer
-            example: 1
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440001"
       responses:
         '200':
           description: Successfully retrieved book
@@ -107,7 +108,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Book'
               example:
-                id: 1
+                id: "550e8400-e29b-41d4-a716-446655440001"
                 title: "To Kill a Mockingbird"
                 author: "Harper Lee"
                 year: 1960
@@ -131,10 +132,11 @@ paths:
         - name: id
           in: path
           required: true
-          description: The ID of the book to update
+          description: The UUID of the book to update
           schema:
-            type: integer
-            example: 1
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440001"
       requestBody:
         required: true
         content:
@@ -154,7 +156,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Book'
               example:
-                id: 1
+                id: "550e8400-e29b-41d4-a716-446655440001"
                 title: "To Kill a Mockingbird (Updated)"
                 author: "Harper Lee"
                 year: 1960
@@ -186,10 +188,11 @@ paths:
         - name: id
           in: path
           required: true
-          description: The ID of the book to delete
+          description: The UUID of the book to delete
           schema:
-            type: integer
-            example: 1
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440001"
       responses:
         '200':
           description: Book deleted successfully
@@ -200,7 +203,7 @@ paths:
               example:
                 message: "Book deleted successfully"
                 book:
-                  id: 1
+                  id: "550e8400-e29b-41d4-a716-446655440001"
                   title: "To Kill a Mockingbird"
                   author: "Harper Lee"
                   year: 1960
@@ -224,9 +227,10 @@ components:
         - author
       properties:
         id:
-          type: integer
-          description: Unique identifier for the book
-          example: 1
+          type: string
+          format: uuid
+          description: Unique identifier for the book (UUID)
+          example: "550e8400-e29b-41d4-a716-446655440001"
         title:
           type: string
           description: Title of the book

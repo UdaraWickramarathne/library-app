@@ -2,9 +2,19 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const NodeCache = require('node-cache');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Initialize cache
+const cache = new NodeCache({
+  stdTTL: 0,
+  useClones: false,
+  deleteOnExpire: true,
+  maxKeys: 1000,
+});
 
 // Middleware
 app.use(cors());
@@ -12,28 +22,35 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// In-memory database for books
-let books = [
-  { id: 1, title: 'To Kill a Mockingbird', author: 'Harper Lee', year: 1960, isbn: '978-0061120084' },
-  { id: 2, title: '1984', author: 'George Orwell', year: 1949, isbn: '978-0451524935' },
-  { id: 3, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', year: 1925, isbn: '978-0743273565' }
+// Initialize with sample books
+const sampleBooks = [
+  { id: uuidv4(), title: 'To Kill a Mockingbird', author: 'Harper Lee', year: 1960, isbn: '978-0061120084' },
+  { id: uuidv4(), title: '1984', author: 'George Orwell', year: 1949, isbn: '978-0451524935' },
+  { id: uuidv4(), title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', year: 1925, isbn: '978-0743273565' }
 ];
 
-let nextId = 4;
+sampleBooks.forEach(book => {
+  cache.set(book.id, book);
+});
 
 // Routes
 
 // GET all books
 app.get('/api/books', (req, res) => {
+  const keys = cache.keys();
+  const books = keys.map(key => cache.get(key));
   res.json(books);
 });
 
 // GET single book by ID
 app.get('/api/books/:id', (req, res) => {
-  const book = books.find(b => b.id === parseInt(req.params.id));
-  if (!book) {
+  const id = req.params.id;
+  
+  if (!cache.has(id)) {
     return res.status(404).json({ message: 'Book not found' });
   }
+  
+  const book = cache.get(id);
   res.json(book);
 });
 
@@ -45,23 +62,24 @@ app.post('/api/books', (req, res) => {
     return res.status(400).json({ message: 'Title and author are required' });
   }
   
+  const id = uuidv4();
   const newBook = {
-    id: nextId++,
+    id,
     title,
     author,
     year: year ? parseInt(year) : null,
     isbn: isbn || ''
   };
   
-  books.push(newBook);
+  cache.set(id, newBook);
   res.status(201).json(newBook);
 });
 
 // PUT update book
 app.put('/api/books/:id', (req, res) => {
-  const bookIndex = books.findIndex(b => b.id === parseInt(req.params.id));
+  const id = req.params.id;
   
-  if (bookIndex === -1) {
+  if (!cache.has(id)) {
     return res.status(404).json({ message: 'Book not found' });
   }
   
@@ -71,27 +89,29 @@ app.put('/api/books/:id', (req, res) => {
     return res.status(400).json({ message: 'Title and author are required' });
   }
   
-  books[bookIndex] = {
-    id: parseInt(req.params.id),
+  const updatedBook = {
+    id,
     title,
     author,
     year: year ? parseInt(year) : null,
     isbn: isbn || ''
   };
   
-  res.json(books[bookIndex]);
+  cache.set(id, updatedBook);
+  res.json(updatedBook);
 });
 
 // DELETE book
 app.delete('/api/books/:id', (req, res) => {
-  const bookIndex = books.findIndex(b => b.id === parseInt(req.params.id));
+  const id = req.params.id;
   
-  if (bookIndex === -1) {
+  if (!cache.has(id)) {
     return res.status(404).json({ message: 'Book not found' });
   }
   
-  const deletedBook = books.splice(bookIndex, 1);
-  res.json({ message: 'Book deleted successfully', book: deletedBook[0] });
+  const deletedBook = cache.get(id);
+  cache.del(id);
+  res.json({ message: 'Book deleted successfully', book: deletedBook });
 });
 
 // Serve index.html for root path
@@ -100,6 +120,6 @@ app.get('/', (req, res) => {
 });
 
 // Start server - listen on 0.0.0.0 for container environments
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Library app server running on http://0.0.0.0:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`listening on http://localhost:${PORT}`);
 });

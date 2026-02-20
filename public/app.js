@@ -52,8 +52,8 @@ function displayBooks(books) {
                 ${book.isbn ? ` | ISBN: ${escapeHtml(book.isbn)}` : ''}
             </div>
             <div class="book-actions">
-                <button class="btn btn-edit" onclick="editBook(${book.id})">Edit</button>
-                <button class="btn btn-delete" onclick="deleteBook(${book.id})">Delete</button>
+                <button class="btn btn-edit" onclick="editBook('${book.id}')">Edit</button>
+                <button class="btn btn-delete" onclick="deleteBook('${book.id}')">Delete</button>
             </div>
         </div>
     `).join('');
