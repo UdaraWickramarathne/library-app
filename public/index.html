@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Library Management System</h1>
+            <p>Manage your book collection</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Add/Edit Book Form -->
+            <section class="form-section">
+                <h2 id="form-title">Add New Book</h2>
+                <form id="book-form">
+                    <input type="hidden" id="book-id">
+                    
+                    <div class="form-group">
+                        <label for="title">Title *</label>
+                        <input type="text" id="title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="author">Author *</label>
+                        <input type="text" id="author" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="year">Publication Year</label>
+                        <input type="number" id="year" min="1000" max="2100">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="isbn">ISBN</label>
+                        <input type="text" id="isbn">
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary" id="submit-btn">Add Book</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-btn" style="display: none;">Cancel</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Books List -->
+            <section class="books-section">
+                <h2>Book Collection</h2>
+                <div id="books-container">
+                    <div class="loading">Loading books...</div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

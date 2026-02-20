@@ -1,0 +1,243 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    background: #0d1b0d;
+    min-height: 100vh;
+    padding: 0;
+    color: #e8f5e8;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+header {
+    text-align: left;
+    color: #a8d5a8;
+    margin-bottom: 50px;
+    padding: 0 0 30px 0;
+    border-bottom: 3px solid #1e4d1e;
+}
+
+header h1 {
+    font-size: 3em;
+    margin-bottom: 8px;
+    font-weight: 400;
+    letter-spacing: -1px;
+    color: #2d5f2d;
+}
+
+header p {
+    font-size: 1em;
+    color: #5a8a5a;
+    font-style: italic;
+    letter-spacing: 0.5px;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 40px;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-section, .books-section {
+    background: #162516;
+    border: 1px solid #2d5f2d;
+    border-radius: 2px;
+    padding: 30px;
+}
+
+.form-section h2, .books-section h2 {
+    color: #4a884a;
+    margin-bottom: 25px;
+    font-size: 1.3em;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-left: 4px solid #2d5f2d;
+    padding-left: 15px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #7fa87f;
+    font-weight: 400;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #2d5f2d;
+    border-radius: 0;
+    font-size: 1em;
+    background: #0d1b0d;
+    color: #e8f5e8;
+    font-family: 'Georgia', serif;
+    transition: all 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #4a884a;
+    background: #1a2e1a;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.btn {
+    padding: 14px 28px;
+    border: 1px solid #2d5f2d;
+    border-radius: 0;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-family: 'Georgia', serif;
+}
+
+.btn-primary {
+    background: #2d5f2d;
+    color: #e8f5e8;
+    flex: 1;
+    border: 1px solid #2d5f2d;
+}
+
+.btn-primary:hover {
+    background: #3d7f3d;
+    border-color: #4a884a;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #7fa87f;
+    flex: 1;
+    border: 1px solid #2d5f2d;
+}
+
+.btn-secondary:hover {
+    background: #1e4d1e;
+    color: #a8d5a8;
+}
+
+.btn-edit {
+    background: transparent;
+    color: #7fa87f;
+    padding: 10px 20px;
+    font-size: 0.85em;
+    border: 1px solid #2d5f2d;
+}
+
+.btn-edit:hover {
+    background: #1e4d1e;
+    color: #a8d5a8;
+}
+
+.btn-delete {
+    background: transparent;
+    color: #8a5a5a;
+    padding: 10px 20px;
+    font-size: 0.85em;
+    border: 1px solid #4d1e1e;
+}
+
+.btn-delete:hover {
+    background: #3d0d0d;
+    color: #d58a8a;
+    border-color: #7f2d2d;
+}
+
+#books-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.book-card {
+    border: 1px solid #2d5f2d;
+    border-left: 4px solid #2d5f2d;
+    border-radius: 0;
+    padding: 25px;
+    background: #0d1b0d;
+    transition: all 0.2s;
+}
+
+.book-card:hover {
+    border-left-color: #4a884a;
+    background: #1a2e1a;
+    border-color: #3d7f3d;
+}
+
+.book-card h3 {
+    color: #a8d5a8;
+    margin-bottom: 12px;
+    font-size: 1.4em;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+}
+
+.book-card .book-author {
+    color: #7fa87f;
+    font-size: 1em;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.book-card .book-details {
+    color: #5a8a5a;
+    font-size: 0.85em;
+    margin-bottom: 18px;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+}
+
+.book-card .book-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.loading {
+    text-align: center;
+    color: #5a8a5a;
+    padding: 60px;
+    font-size: 1em;
+    font-style: italic;
+}
+
+.empty-state {
+    text-align: center;
+    color: #5a8a5a;
+    padding: 60px;
+}
+
+.empty-state p {
+    font-size: 1em;
+    margin-bottom: 10px;
+    font-style: italic;
+}
