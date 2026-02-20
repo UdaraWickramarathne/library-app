@@ -1,29 +1,33 @@
 openapi: 3.0.3
 info:
   title: Library Management API
-  description: A simple CRUD API for managing a library book collection
-  version: 1.0.0
-  contact:
-    name: Library API Support
+  description: >-
+    This is a simple CRUD API for managing a library book collection with in-memory cache
+    written in Node.js
   license:
-    name: ISC
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Choreo
+  url: https://choreo.dev
 
 servers:
   - url: http://localhost:3001
     description: Local development server
 
 tags:
-  - name: Books
-    description: Operations related to book management
+  - name: books
+    description: In-memory book list cache API
 
 paths:
   /api/books:
     get:
       tags:
-        - Books
-      summary: Get all books
+        - books
+      summary: List all books
       description: Retrieve a list of all books in the library
-      operationId: getAllBooks
+      operationId: ListAllBooks
       responses:
         '200':
           description: Successfully retrieved list of books
@@ -47,10 +51,10 @@ paths:
 
     post:
       tags:
-        - Books
-      summary: Create a new book
+        - books
+      summary: Insert a new book
       description: Add a new book to the library collection
-      operationId: createBook
+      operationId: CreateBook
       requestBody:
         required: true
         content:
@@ -85,17 +89,17 @@ paths:
                 message: "Title and author are required"
 
   /api/books/{id}:
+    summary: Get, update, or delete book by UUID
     get:
       tags:
-        - Books
-      summary: Get a book by ID
-      description: Retrieve details of a specific book
-      operationId: getBookById
+        - books
+      summary: Get book by UUID
+      description: GetBookByUUID
       parameters:
         - name: id
           in: path
           required: true
-          description: The UUID of the book to retrieve
+          description: UUID of book to retrieve
           schema:
             type: string
             format: uuid
@@ -124,15 +128,15 @@ paths:
 
     put:
       tags:
-        - Books
+        - books
       summary: Update a book
       description: Update an existing book's information
-      operationId: updateBook
+      operationId: UpdateBook
       parameters:
         - name: id
           in: path
           required: true
-          description: The UUID of the book to update
+          description: UUID of book to update
           schema:
             type: string
             format: uuid
@@ -180,15 +184,15 @@ paths:
 
     delete:
       tags:
-        - Books
-      summary: Delete a book
-      description: Remove a book from the library collection
-      operationId: deleteBook
+        - books
+      summary: Delete book by UUID
+      description: Deletes a single book based on the UUID supplied
+      operationId: DeleteBookByUUID
       parameters:
         - name: id
           in: path
           required: true
-          description: The UUID of the book to delete
+          description: UUID of book to delete
           schema:
             type: string
             format: uuid
@@ -216,6 +220,23 @@ paths:
                 $ref: '#/components/schemas/Error'
               example:
                 message: "Book not found"
+
+  /healthz:
+    summary: Healthcheck endpoint
+    get:
+      summary: Healthcheck
+      operationId: Healthcheck
+      responses:
+        '200':
+          description: Healthy response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
 
 components:
   schemas:

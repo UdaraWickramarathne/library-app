@@ -114,6 +114,11 @@ app.delete('/api/books/:id', (req, res) => {
   res.json({ message: 'Book deleted successfully', book: deletedBook });
 });
 
+// Health check endpoint
+app.get('/healthz', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
 // Serve index.html for root path
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
