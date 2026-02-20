@@ -42,10 +42,24 @@ npm run dev
 
 2. Open your browser and navigate to:
 ```
-http://localhost:3000
+http://localhost:3001
+```
+
+## Docker Support
+
+Build and run with Docker:
+
+```bash
+# Build the image
+docker build -t library-app .
+
+# Run the container
+docker run -p 3001:3001 library-app
 ```
 
 ## API Endpoints
+
+Full API documentation is available in [openapi.yaml](openapi.yaml)
 
 - `GET /api/books` - Get all books
 - `GET /api/books/:id` - Get a specific book
@@ -59,6 +73,9 @@ http://localhost:3000
 library-app/
 ├── server.js           # Express server and API routes
 ├── package.json        # Project dependencies
+├── openapi.yaml        # OpenAPI 3.0 specification
+├── Dockerfile          # Docker configuration
+├── .dockerignore       # Docker ignore file
 ├── .gitignore         # Git ignore file
 ├── README.md          # Project documentation
 └── public/            # Frontend files
