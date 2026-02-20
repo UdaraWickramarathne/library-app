@@ -99,7 +99,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Library app server running on http://localhost:${PORT}`);
+// Start server - listen on 0.0.0.0 for container environments
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Library app server running on http://0.0.0.0:${PORT}`);
 });
